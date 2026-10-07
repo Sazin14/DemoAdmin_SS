@@ -43,6 +43,18 @@ export type AdminRecord = {
   status: string
   date: string
   amount?: string
+  statusHistory?: OrderStatusHistoryEntry[]
+}
+
+export type OrderStatus = 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled' | 'Refunded'
+
+export type OrderStatusHistoryEntry = {
+  id: string
+  from: OrderStatus | null
+  to: OrderStatus
+  changedAt: string
+  changedBy: string
+  undone?: boolean
 }
 
 export type StoreData = {
