@@ -1,6 +1,7 @@
-import type { AdminRecord, Category, Product, StoreData } from '@/types/admin'
+import type { AdminRecord, Category, OrderStatus, Product, StoreData } from '@/types/admin'
 
-// MOCK DATA: Temporary development fixtures replaceable by the corresponding service APIs.
+// MOCK DATA: Temporary development data.
+// Replace with Catalog Service API integration when available.
 const demoProducts: Product[] = [
   { id: 'prd-1001', name: 'AeroTune Wireless Headphones', sku: 'AT-WH-401', category: 'Electronics / Audio', brand: 'AeroTune', description: 'Comfortable over-ear wireless headphones with active noise cancellation and up to 32 hours of battery life.', price: 89.99, compareAtPrice: 119.99, stock: 42, lowStockThreshold: 12, status: 'Published', image: '🎧', updatedAt: '2026-10-05', attributes: { Connectivity: 'Bluetooth 5.3', Colour: 'Midnight black' } },
   { id: 'prd-1002', name: 'Everyday Canvas Backpack', sku: 'EC-BP-022', category: 'Accessories / Bags', brand: 'Northline', description: 'A durable everyday backpack with a padded laptop sleeve and water-resistant canvas.', price: 64, compareAtPrice: 0, stock: 8, lowStockThreshold: 10, status: 'Published', image: '🎒', updatedAt: '2026-10-04', attributes: { Material: 'Recycled canvas', Capacity: '22 L' } },
@@ -22,11 +23,18 @@ const demoCategories: Category[] = [
 const records = (items: Array<[string, string, string, string, string, string?]>): AdminRecord[] =>
   items.map(([id, name, detail, status, date, amount]) => ({ id, name, detail, status, date, amount }))
 
-// MOCK DATA: Operations data remains replaceable through this repository boundary.
+const orderRecords = (items: Array<[string, string, string, OrderStatus, string, string?]>): AdminRecord[] =>
+  items.map(([id, name, detail, status, date, amount]) => ({
+    id, name, detail, status, date, amount,
+    statusHistory: [{ id: `seed-${id}`, from: null, to: status, changedAt: '2026-10-06T08:00:00.000Z', changedBy: 'Riley Morgan' }],
+  }))
+
+// MOCK DATA: Temporary development data.
+// Replace with the appropriate Commerce and Admin Service API integrations when available.
 export const initialStore: StoreData = {
   products: demoProducts,
   categories: demoCategories,
-  orders: records([
+  orders: orderRecords([
     ['ORD-2048', 'Avery Patel', '3 items · Card ending 4821', 'Processing', 'Oct 06, 2026', '$248.50'],
     ['ORD-2047', 'Jordan Lee', '2 items · Card ending 1904', 'Shipped', 'Oct 06, 2026', '$156.00'],
     ['ORD-2046', 'Morgan Chen', '1 item · Wallet', 'Pending', 'Oct 05, 2026', '$89.99'],
